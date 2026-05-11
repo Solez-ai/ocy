@@ -15,10 +15,21 @@ _api_url: Optional[str] = None
 _api_key: Optional[str] = None
 
 
+def _get_api_base_url() -> str:
+    """Get clean API base URL (without trailing /api/extract)"""
+    if not _api_url:
+        raise ValueError("API URL not set. Call set_api_url() first.")
+    # Strip trailing slashes and /api/extract if present
+    clean = _api_url.rstrip('/')
+    if clean.endswith('/api/extract'):
+        clean = clean[:-11]  # remove /api/extract
+    return clean
+
+
 def set_api_url(url: str) -> None:
     """Set a custom API URL for self-hosted instances."""
     global _api_url
-    _api_url = url
+    _api_url = url.rstrip('/')
 
 
 def set_api_key(key: str) -> None:
@@ -64,9 +75,7 @@ def extract_text(
         >>> print(result['text'])
     """
     global _api_key
-
-    if not _api_url:
-        raise ValueError("API URL not set. Call set_api_url() first or set OCY_API_URL environment variable.")
+    api_base = _get_api_base_url()
 
     # Determine image URL
     image_url = img
@@ -93,7 +102,7 @@ def extract_text(
     # Make request
     with httpx.Client(timeout=30.0) as client:
         response = client.post(
-            f"{_api_url}/api/extract",
+            f"{api_base}/api/extract",
             json={"image_url": image_url},
             headers=headers
         )
@@ -116,9 +125,7 @@ async def extract_text_async(
         dict with keys: text, confidence, latency_ms, model, chars_detected
     """
     global _api_key
-
-    if not _api_url:
-        raise ValueError("API URL not set. Call set_api_url() first or set OCY_API_URL environment variable.")
+    api_base = _get_api_base_url()
 
     # Determine image URL
     image_url = img
@@ -153,7 +160,7 @@ async def extract_text_async(
     # Make async request
     async with httpx.AsyncClient(timeout=30.0) as client:
         response = await client.post(
-            f"{_api_url}/api/extract",
+            f"{api_base}/api/extract",
             json={"image_url": image_url},
             headers=headers
         )

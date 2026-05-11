@@ -1,6 +1,6 @@
 {
   "name": "@solez-ai/ocy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lightweight OCR SDK for developer screenshots",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

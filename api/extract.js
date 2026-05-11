@@ -3,6 +3,8 @@
  * Deploy as Vercel serverless function
  */
 
+export const runtime = 'edge';
+
 const VERSION = "1.0.0";
 const MODEL_NAME = "ocy-v1-int8";
 
@@ -41,7 +43,9 @@ async function fetchImage(imageUrl) {
 
 async function runInference(imageData) {
   const startTime = Date.now();
+  // Simulate OCR processing
   await new Promise(resolve => setTimeout(resolve, 50));
+
   return {
     text: "SAMPLE_CODE",
     confidence: 0.92,
@@ -52,21 +56,32 @@ async function runInference(imageData) {
 }
 
 export default async function handler(req) {
-  if (req.method === 'OPTIONS') {
-    return new Response('', { status: 204, headers: corsHeaders().headers });
-  }
-
-  const ip = req.headers.get('x-forwarded-for') || 'unknown';
-  const allowed = await checkRateLimit(ip);
-  if (!allowed) {
-    return corsHeaders(429, JSON.stringify({ error: 'Rate limit exceeded. Maximum 100 requests per hour.' }));
-  }
-
   try {
-    if (req.method !== 'POST') {
-      return corsHeaders(405, JSON.stringify({ error: 'Method not allowed' }));
+    // CORS preflight
+    if (req.method === 'OPTIONS') {
+      return new Response('', {
+        status: 204,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, x-api-key',
+        }
+      });
     }
 
+    // Rate limit check
+    const ip = req.headers.get('x-forwarded-for') || 'unknown';
+    const allowed = await checkRateLimit(ip);
+    if (!allowed) {
+      return corsHeaders(429, JSON.stringify({ error: 'Rate limit exceeded. Maximum 100 requests per hour.' }));
+    }
+
+    // Method check
+    if (req.method !== 'POST') {
+      return corsHeaders(405, JSON.stringify({ error: 'Method not allowed. Use POST.' }));
+    }
+
+    // Parse body
     let body;
     try {
       body = await req.json();
@@ -79,18 +94,32 @@ export default async function handler(req) {
       return corsHeaders(400, JSON.stringify({ error: 'Missing image_url field' }));
     }
 
+    // Validate URL
     try {
       new URL(image_url);
     } catch (e) {
       return corsHeaders(400, JSON.stringify({ error: 'Invalid image_url format' }));
     }
 
+    // Fetch and process image
     const imageData = await fetchImage(image_url);
     const result = await runInference(imageData);
 
-    return corsHeaders(200, JSON.stringify(result));
+    return new Response(JSON.stringify(result), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      }
+    });
 
   } catch (e) {
-    return corsHeaders(500, JSON.stringify({ error: e.message }));
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      }
+    });
   }
 }

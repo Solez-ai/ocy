@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ocy"
-version = "1.0.0"
+version = "1.0.1"
 description = "Lightweight OCR for developer screenshots — extract text from code images, terminals, and IDE windows"
 readme = "README.md"
 license = { text = "MIT" }

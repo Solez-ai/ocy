@@ -2,6 +2,8 @@
  * OCY - Health Check API
  */
 
+export const runtime = 'edge';
+
 const VERSION = "1.0.0";
 const MODEL_NAME = "ocy-v1-int8";
 
