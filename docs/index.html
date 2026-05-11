@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCY — OCR for Developers</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <a href="#" class="logo">
+        <img src="https://raw.githubusercontent.com/solez-ai/ocy/main/public/logo.png" alt="OCY">
+        <span>OCY</span>
+      </a>
+      <nav class="nav">
+        <a href="#quickstart">Quickstart</a>
+        <a href="#api">API Reference</a>
+        <a href="#sdks">SDKs</a>
+        <a href="#self-hosting">Self-hosting</a>
+      </nav>
+      <a href="https://github.com/solez-ai/ocy" class="github-btn" target="_blank">★ Star on GitHub</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>OCY — OCR for Developers</h1>
+        <p class="subtitle">Extract text from code screenshots, terminal output, and IDE windows. One line of code.</p>
+
+        <div class="hero-code">
+          <pre><code class="language-python">import ocy
+result = ocy.extract_text("https://example.com/code.png")
+print(result["text"])</code><pre><code class="language-javascript">const { extractText } = require("ocy");
+const result = await extractText("https://example.com/code.png");
+console.log(result.text);</code><pre><code class="language-java">String text = Ocy.extractTextOnly("https://example.com/code.png");
+System.out.println(text);</code><pre><code class="language-cpp">auto result = ocy::extract("https://example.com/code.png");
+cout << result.text << endl;</code></pre>
+        </div>
+
+        <a href="#quickstart" class="cta-btn">Get started</a>
+      </div>
+    </section>
+
+    <section id="quickstart" class="section">
+      <div class="container">
+        <h2>Quickstart</h2>
+        <p class="section-desc">Install the SDK for your language and extract text in minutes.</p>
+
+        <div class="tabs">
+          <div class="tab-list">
+            <button class="tab active" data-tab="python">Python</button>
+            <button class="tab" data-tab="javascript">JavaScript</button>
+            <button class="tab" data-tab="typescript">TypeScript</button>
+            <button class="tab" data-tab="java">Java</button>
+            <button class="tab" data-tab="cpp">C++</button>
+          </div>
+
+          <div class="tab-content active" data-content="python">
+            <h3>Installation</h3>
+            <pre><code class="language-bash">pip install ocy</code></pre>
+            <h3>Usage</h3>
+            <pre><code class="language-python">import ocy
+
+result = ocy.extract_text("https://example.com/screenshot.png")
+print(result["text"])
+print(f"Confidence: {result['confidence']:.1%}")</code></pre>
+          </div>
+
+          <div class="tab-content" data-content="javascript">
+            <h3>Installation</h3>
+            <pre><code class="language-bash">npm install ocy</code></pre>
+            <h3>Usage</h3>
+            <pre><code class="language-javascript">const { extractText } = require('ocy');
+
+const result = await extractText('https://example.com/screenshot.png');
+console.log(result.text);</code></pre>
+          </div>
+
+          <div class="tab-content" data-content="typescript">
+            <h3>Installation</h3>
+            <pre><code class="language-bash">npm install ocy</code></pre>
+            <h3>Usage</h3>
+            <pre><code class="language-typescript">import { extractText } from 'ocy';
+
+const result = await extractText('https://example.com/code.png');
+console.log(result.text);</code></pre>
+          </div>
+
+          <div class="tab-content" data-content="java">
+            <h3>Installation (Maven)</h3>
+            <pre><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;dev.ocy&lt;/groupId&gt;
+  &lt;artifactId&gt;ocy-java&lt;/artifactId&gt;
+  &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+            <h3>Usage</h3>
+            <pre><code class="language-java">import dev.ocy.Ocy;
+
+String text = Ocy.extractTextOnly("https://example.com/code.png");
+System.out.println(text);</code></pre>
+          </div>
+
+          <div class="tab-content" data-content="cpp">
+            <h3>Installation</h3>
+            <pre><code class="language-bash">vcpkg install curl</code></pre>
+            <h3>Usage</h3>
+            <pre><code class="language-cpp">#include "ocy.hpp"
+
+auto result = ocy::extract("https://example.com/code.png");
+cout << result.text << endl;</code></pre>
+            <h3>Compile</h3>
+            <pre><code class="language-bash">g++ -o app main.cpp -lcurl</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="api" class="section">
+      <div class="container">
+        <h2>API Reference</h2>
+
+        <div class="endpoint">
+          <div class="endpoint-header">
+            <span class="method post">POST</span>
+            <span class="path">/extract</span>
+          </div>
+          <p>Extract text from an image URL.</p>
+
+          <h4>Request</h4>
+          <pre><code class="language-json">{
+  "image_url": "https://example.com/screenshot.png"
+}</code></pre>
+
+          <h4>Response</h4>
+          <pre><code class="language-json">{
+  "text": "extracted text...",
+  "confidence": 0.95,
+  "latency_ms": 150,
+  "model": "ocy-v1-int8",
+  "chars_detected": 42
+}</code></pre>
+
+          <table>
+            <thead>
+              <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>text</td><td>string</td><td>Extracted text</td></tr>
+              <tr><td>confidence</td><td>float</td><td>Confidence score 0.0-1.0</td></tr>
+              <tr><td>latency_ms</td><td>int</td><td>Processing time in ms</td></tr>
+              <tr><td>model</td><td>string</td><td>Model identifier</td></tr>
+              <tr><td>chars_detected</td><td>int</td><td>Character count</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="endpoint">
+          <div class="endpoint-header">
+            <span class="method get">GET</span>
+            <span class="path">/health</span>
+          </div>
+          <p>Check API health status.</p>
+          <pre><code class="language-json">{
+  "status": "ok",
+  "version": "1.0.0",
+  "model": "ocy-v1-int8"
+}</code></pre>
+        </div>
+
+        <div class="errors">
+          <h3>Error Codes</h3>
+          <table>
+            <thead>
+              <tr><th>Code</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>400</td><td>Invalid request (missing image_url, invalid URL format)</td></tr>
+              <tr><td>429</td><td>Rate limit exceeded (100 requests/hour)</td></tr>
+              <tr><td>502</td><td>Failed to fetch image</td></tr>
+              <tr><td>500</td><td>Internal inference error</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="sdks" class="section">
+      <div class="container">
+        <h2>SDKs</h2>
+        <p class="section-desc">Official client libraries for popular languages.</p>
+
+        <div class="sdk-grid">
+          <div class="sdk-card">
+            <h3>Python</h3>
+            <pre><code class="language-bash">pip install ocy</code></pre>
+            <a href="sdk/python/README.md">View README →</a>
+          </div>
+
+          <div class="sdk-card">
+            <h3>JavaScript</h3>
+            <pre><code class="language-bash">npm install ocy</code></pre>
+            <a href="sdk/js/README.md">View README →</a>
+          </div>
+
+          <div class="sdk-card">
+            <h3>TypeScript</h3>
+            <pre><code class="language-bash">npm install ocy</code></pre>
+            <a href="sdk/js/README.md">View README →</a>
+          </div>
+
+          <div class="sdk-card">
+            <h3>Java</h3>
+            <pre><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;dev.ocy&lt;/groupId&gt;
+  &lt;artifactId&gt;ocy-java&lt;/artifactId&gt;
+  &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+            <a href="sdk/java/README.md">View README →</a>
+          </div>
+
+          <div class="sdk-card">
+            <h3>C++</h3>
+            <pre><code class="language-bash">vcpkg install curl</code></pre>
+            <a href="sdk/cpp/README.md">View README →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="self-hosting" class="section">
+      <div class="container">
+        <h2>Self-hosting</h2>
+        <p class="section-desc">Run your own OCY worker with Cloudflare Workers.</p>
+
+        <ol class="steps">
+          <li>
+            <h4>Clone the repository</h4>
+            <pre><code class="language-bash">git clone https://github.com/solez-ai/ocy.git
+cd ocy</code></pre>
+          </li>
+          <li>
+            <h4>Quantize the model (if needed)</h4>
+            <pre><code class="language-bash">python quantize.py --input model.onnx --output model_int8.onnx</code></pre>
+          </li>
+          <li>
+            <h4>Configure wrangler.toml</h4>
+            <pre><code class="language-toml">name = "ocy-api"
+compatibility_date = "2024-01-01"
+
+[vars]
+GITHUB_RELEASE_URL = "https://github.com/your-org/ocy/releases/download/v1.0.0/model_int8.onnx"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "your-kv-namespace-id"</code></pre>
+          </li>
+          <li>
+            <h4>Deploy to Cloudflare</h4>
+            <pre><code class="language-bash">npx wrangler deploy</code></pre>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <img src="https://raw.githubusercontent.com/solez-ai/ocy/main/public/logo.png" alt="OCY" class="footer-logo">
+        <p>Built by <a href="https://github.com/solez-ai">Samin Yeasar</a> • <a href="https://x.com/Solez_None">@Solez_None</a></p>
+        <p><a href="https://github.com/solez-ai/ocy">GitHub</a> • <a href="https://github.com/solez-ai/ocy/blob/main/LICENSE">MIT License</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    hljs.highlightAll();
+
+    // Tab functionality
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+
+        // Update tab buttons
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // Update content
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelector(`[data-content="${target}"]`).classList.add('active');
+      });
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

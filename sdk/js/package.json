@@ -1,0 +1,32 @@
+{
+  "name": "ocy",
+  "version": "1.0.0",
+  "description": "Lightweight OCR SDK for developer screenshots",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solez-ai/ocy.git",
+    "directory": "sdk/js"
+  },
+  "keywords": [
+    "ocr",
+    "text-recognition",
+    "screenshot",
+    "code",
+    "developer"
+  ],
+  "author": "Samin Yeasar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/solez-ai/ocy/issues"
+  },
+  "homepage": "https://github.com/solez-ai/ocy#readme",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
