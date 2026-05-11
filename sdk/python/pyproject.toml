@@ -11,7 +11,6 @@ license = { text = "MIT" }
 authors = [
     { name = "Samin Yeasar" }
 ]
-homepage = "https://github.com/solez-ai/ocy"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -28,6 +27,7 @@ dependencies = ["httpx>=0.24.0"]
 requires-python = ">=3.8"
 
 [project.urls]
+Homepage = "https://github.com/solez-ai/ocy"
 Repository = "https://github.com/solez-ai/ocy"
 Issues = "https://github.com/solez-ai/ocy/issues"
 
