@@ -9,7 +9,7 @@ Lightweight OCR for developer screenshots — extract text from code images, ter
 ## Installation
 
 ```bash
-npm install ocy
+npm install @solez-ai/ocy
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ npm install ocy
 ### Node.js
 
 ```javascript
-const { extractText, setApiUrl } = require('ocy');
+const { extractText, setApiUrl } = require('@solez-ai/ocy');
 
 // Set your API URL (required)
 setApiUrl('https://your-api.vercel.app');
@@ -34,7 +34,7 @@ main();
 ### TypeScript
 
 ```typescript
-import { extractText, OcyResult } from 'ocy';
+import { extractText, OcyResult } from '@solez-ai/ocy';
 
 const result: OcyResult = await extractText('https://example.com/code.png');
 console.log(result.text);
@@ -44,7 +44,7 @@ console.log(`Latency: ${result.latency_ms}ms`);
 ### React Component
 
 ```tsx
-import { useOcy } from 'ocy';
+import { useOcy } from '@solez-ai/ocy';
 
 function ImageUploader() {
   const { extractText, extractTextFromFile } = useOcy();

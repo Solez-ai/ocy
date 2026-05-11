@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCY - OCR API</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d0d0d; color: #e5e5e5; line-height: 1.6; padding: 2rem; }
+    .container { max-width: 800px; margin: 0 auto; text-align: center; }
+    .logo { width: 120px; margin-bottom: 2rem; }
+    h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .subtitle { color: #888; margin-bottom: 2rem; }
+    .endpoints { text-align: left; background: #1a1a1a; padding: 1.5rem; border-radius: 8px; margin: 2rem 0; }
+    .code-block { background: #1a1a1a; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; font-family: monospace; }
+    pre { margin: 0; }
+    code { color: #a5d6ff; }
+    .comment { color: #6a737d; }
+    .method { background: #7C3AED; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem; }
+    .path { color: #7C3AED; font-family: monospace; }
+    .footer { color: #666; margin-top: 3rem; }
+    .footer a { color: #7C3AED; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://raw.githubusercontent.com/solez-ai/ocy/main/public/logo.png" alt="OCY" class="logo">
+    <h1>OCY — OCR API</h1>
+    <p class="subtitle">Lightweight OCR for developer screenshots</p>
+
+    <div class="endpoints">
+      <p><span class="method">POST</span> <span class="path">/api/extract</span> — Extract text from image</p>
+      <div class="code-block"><pre><span class="comment"># Request</span>
+curl -X POST /api/extract \
+  -H "Content-Type: application/json" \
+  -d '{"image_url": "https://example.com/screenshot.png"}'</pre></div>
+
+      <p><span class="method">GET</span> <span class="path">/api/health</span> — Health check</p>
+      <div class="code-block"><pre>{<span class="comment">"status": "ok", "version": "1.0.0"</span>}</pre></div>
+    </div>
+
+    <div class="code-block"><pre><span class="comment"># Python</span>
+<span class="string">import</span> ocy
+result = ocy.extract_text(<span class="string">"url"</span>)
+
+<span class="comment"># JavaScript</span>
+<span class="string">const</span> { extractText } = <span class="string">require</span>(<span class="string">"ocy"</span>)
+
+<span class="comment"># Java</span>
+String text = Ocy.extractTextOnly(<span class="string">"url"</span>)
+
+<span class="comment"># C++</span>
+auto result = ocy::extract(<span class="string">"url"</span>)</pre></div>
+
+    <div class="footer">
+      <p>Made by <a href="https://github.com/solez-ai">Samin Yeasar</a> • <a href="https://x.com/Solez_None">@Solez_None</a></p>
+      <p><a href="https://github.com/solez-ai/ocy">GitHub</a> • MIT License</p>
+    </div>
+  </div>
+</body>
+</html>

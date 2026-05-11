@@ -60,7 +60,7 @@ pip install ocy
 ### JavaScript / TypeScript
 
 ```bash
-npm install ocy
+npm install @solez-ai/ocy
 ```
 
 ### Java (Maven)
