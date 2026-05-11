@@ -10,9 +10,8 @@ from typing import Union, Optional
 
 __version__ = "1.0.0"
 
-# Default API configuration
-DEFAULT_API_URL = "https://ocy-api.samin.workers.dev"
-_api_url = DEFAULT_API_URL
+# API configuration - must be set by user
+_api_url: Optional[str] = None
 _api_key: Optional[str] = None
 
 
@@ -66,6 +65,9 @@ def extract_text(
     """
     global _api_key
 
+    if not _api_url:
+        raise ValueError("API URL not set. Call set_api_url() first or set OCY_API_URL environment variable.")
+
     # Determine image URL
     image_url = img
 
@@ -91,7 +93,7 @@ def extract_text(
     # Make request
     with httpx.Client(timeout=30.0) as client:
         response = client.post(
-            f"{_api_url}/extract",
+            f"{_api_url}/api/extract",
             json={"image_url": image_url},
             headers=headers
         )
@@ -114,6 +116,9 @@ async def extract_text_async(
         dict with keys: text, confidence, latency_ms, model, chars_detected
     """
     global _api_key
+
+    if not _api_url:
+        raise ValueError("API URL not set. Call set_api_url() first or set OCY_API_URL environment variable.")
 
     # Determine image URL
     image_url = img
@@ -148,7 +153,7 @@ async def extract_text_async(
     # Make async request
     async with httpx.AsyncClient(timeout=30.0) as client:
         response = await client.post(
-            f"{_api_url}/extract",
+            f"{_api_url}/api/extract",
             json={"image_url": image_url},
             headers=headers
         )

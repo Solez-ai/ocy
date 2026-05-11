@@ -17,7 +17,10 @@ npm install ocy
 ### Node.js
 
 ```javascript
-const { extractText } = require('ocy');
+const { extractText, setApiUrl } = require('ocy');
+
+// Set your API URL (required)
+setApiUrl('https://your-api.vercel.app');
 
 async function main() {
   const result = await extractText('https://example.com/screenshot.png');

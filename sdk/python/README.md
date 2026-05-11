@@ -14,26 +14,33 @@ pip install ocy
 
 ## Quick Start
 
-### 1. Extract text from a URL
+### 1. Set your API URL
+
+First, set the API URL. You can use a self-hosted instance or a public one:
 
 ```python
 import ocy
 
+# Set your API URL (required)
+ocy.set_api_url("https://your-api.vercel.app")
+```
+
+### 2. Extract text from a URL
+
+```python
 result = ocy.extract_text("https://example.com/screenshot.png")
 print(result["text"])
 print(f"Confidence: {result['confidence']:.1%}")
 ```
 
-### 2. Extract text from a local file
+### 3. Extract text from a local file
 
 ```python
-import ocy
-
 result = ocy.extract_text("./myScreenshot.png")
 print(result["text"])
 ```
 
-### 3. Async usage
+### 4. Async usage
 
 ```python
 import asyncio
@@ -44,15 +51,6 @@ async def main():
     print(result["text"])
 
 asyncio.run(main())
-```
-
-### 4. Use a custom API URL (self-hosted)
-
-```python
-import ocy
-
-ocy.set_api_url("https://your-custom-worker.workers.dev")
-result = ocy.extract_text("https://example.com/screenshot.png")
 ```
 
 ### 5. Use an API key

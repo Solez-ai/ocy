@@ -15,7 +15,7 @@ export interface OcyOptions {
   apiKey?: string;
 }
 
-let apiUrl = "https://ocy-api.samin.workers.dev";
+let apiUrl: string | undefined;
 let globalApiKey: string | undefined;
 
 /**
@@ -39,6 +39,10 @@ export async function extractText(
   imageUrl: string,
   options?: OcyOptions
 ): Promise<OcyResult> {
+  if (!apiUrl) {
+    throw new Error("API URL not set. Call setApiUrl() first.");
+  }
+
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
@@ -49,7 +53,7 @@ export async function extractText(
     headers["x-api-key"] = globalApiKey;
   }
 
-  const response = await fetch(`${apiUrl}/extract`, {
+  const response = await fetch(`${apiUrl}/api/extract`, {
     method: "POST",
     headers,
     body: JSON.stringify({ image_url: imageUrl }),

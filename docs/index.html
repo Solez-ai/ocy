@@ -130,7 +130,7 @@ cout << result.text << endl;</code></pre>
         <div class="endpoint">
           <div class="endpoint-header">
             <span class="method post">POST</span>
-            <span class="path">/extract</span>
+            <span class="path">/api/extract</span>
           </div>
           <p>Extract text from an image URL.</p>
 
@@ -165,7 +165,7 @@ cout << result.text << endl;</code></pre>
         <div class="endpoint">
           <div class="endpoint-header">
             <span class="method get">GET</span>
-            <span class="path">/health</span>
+            <span class="path">/api/health</span>
           </div>
           <p>Check API health status.</p>
           <pre><code class="language-json">{
@@ -247,24 +247,10 @@ cout << result.text << endl;</code></pre>
 cd ocy</code></pre>
           </li>
           <li>
-            <h4>Quantize the model (if needed)</h4>
-            <pre><code class="language-bash">python quantize.py --input model.onnx --output model_int8.onnx</code></pre>
-          </li>
-          <li>
-            <h4>Configure wrangler.toml</h4>
-            <pre><code class="language-toml">name = "ocy-api"
-compatibility_date = "2024-01-01"
-
-[vars]
-GITHUB_RELEASE_URL = "https://github.com/your-org/ocy/releases/download/v1.0.0/model_int8.onnx"
-
-[[kv_namespaces]]
-binding = "RATE_LIMIT"
-id = "your-kv-namespace-id"</code></pre>
-          </li>
-          <li>
-            <h4>Deploy to Cloudflare</h4>
-            <pre><code class="language-bash">npx wrangler deploy</code></pre>
+            <h4>Deploy to Vercel</h4>
+            <pre><code class="language-bash">npm install -g vercel
+vercel</code></pre>
+            <p>Or connect your repo to Vercel for automatic deployments.</p>
           </li>
         </ol>
       </div>

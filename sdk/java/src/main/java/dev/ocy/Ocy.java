@@ -11,7 +11,7 @@ import java.time.Duration;
  * Lightweight OCR for developer screenshots
  */
 public class Ocy {
-    private static String API_URL = "https://ocy-api.samin.workers.dev";
+    private static String API_URL = null;
     private static String API_KEY = null;
 
     private static final HttpClient CLIENT = HttpClient.newBuilder()
@@ -43,10 +43,14 @@ public class Ocy {
      * Extract text from an image URL with API key
      */
     public static String extractText(String imageUrl, String apiKey) throws java.io.IOException {
+        if (API_URL == null) {
+            throw new IllegalStateException("API URL not set. Call setApiUrl() first.");
+        }
+
         String requestBody = String.format("{\"image_url\":\"%s\"}", imageUrl.replace("\"", "\\\""));
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
-                .uri(URI.create(API_URL + "/extract"))
+                .uri(URI.create(API_URL + "/api/extract"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody));
 
@@ -126,7 +130,7 @@ public class Ocy {
      */
     public static String health() throws java.io.IOException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(API_URL + "/health"))
+                .uri(URI.create(API_URL + "/api/health"))
                 .GET()
                 .build();
 

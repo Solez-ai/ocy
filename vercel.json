@@ -1,0 +1,12 @@
+{
+  "framework": null,
+  "functions": {
+    "worker/index.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/worker/index.js" },
+    { "src": "/(.*)", "dest": "/worker/index.js" }
+  ]
+}

@@ -5,7 +5,6 @@
 [![npm version](https://img.shields.io/npm/v/ocy)](https://www.npmjs.com/package/ocy)
 [![PyPI version](https://img.shields.io/pypi/v/ocy)](https://pypi.org/project/ocy/)
 [![License](https://img.shields.io/github/license/solez-ai/ocy)](https://github.com/solez-ai/ocy/blob/main/LICENSE)
-[![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-7C3AED)](https://workers.cloudflare.com/)
 
 Lightweight OCR for developer screenshots — extract text from code images, terminal output, and IDE windows. One line of code.
 
@@ -15,22 +14,26 @@ Lightweight OCR for developer screenshots — extract text from code images, ter
 
 ```python
 import ocy
+ocy.set_api_url("https://your-api.vercel.app")
 result = ocy.extract_text("https://example.com/code.png")
 print(result["text"])
 ```
 
 ```javascript
-const { extractText } = require("ocy");
+const { extractText, setApiUrl } = require("ocy");
+setApiUrl('https://your-api.vercel.app');
 const result = await extractText("https://example.com/code.png");
 console.log(result.text);
 ```
 
 ```java
+Ocy.setApiUrl("https://your-api.vercel.app");
 String text = Ocy.extractTextOnly("https://example.com/code.png");
 System.out.println(text);
 ```
 
 ```cpp
+ocy::setApiUrl("https://your-api.vercel.app");
 auto result = ocy::extract("https://example.com/code.png");
 cout << result.text << endl;
 ```
@@ -40,8 +43,8 @@ cout << result.text << endl;
 ```
 ┌─────────────┐     ┌──────────────────┐     ┌─────────────┐     ┌───────────┐
 │   Python    │     │                  │     │             │     │           │
-│   JavaScript│────▶│ Cloudflare Worker │────▶│ ONNX Model  │────▶│ JSON Resp │
-│   Java      │     │    (OCR API)     │     │ (Int8)      │     │           │
+│   JavaScript│────▶│   Vercel API     │────▶│ ONNX Model  │────▶│ JSON Resp │
+│   Java      │     │   (Serverless)   │     │ (Int8)      │     │           │
 │   C++       │     │                  │     │             │     │           │
 └─────────────┘     └──────────────────┘     └─────────────┘     └───────────┘
 ```
@@ -83,10 +86,10 @@ Then include `ocy.hpp` and compile with `-lcurl`.
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/extract` | POST | Extract text from image URL |
-| `/health` | GET | Check API health status |
+| `/api/extract` | POST | Extract text from image URL |
+| `/api/health` | GET | Check API health status |
 
-### POST /extract
+### POST /api/extract
 
 **Request:**
 
@@ -127,13 +130,12 @@ Then include `ocy.hpp` and compile with `-lcurl`.
 | 502 | Failed to fetch image |
 | 500 | Internal inference error |
 
-## Self-hosting
+## Self-hosting (Vercel)
 
 ### Prerequisites
 
 - Node.js 18+
-- Cloudflare account
-- Wrangler CLI (`npm install -g wrangler`)
+- Vercel account (free)
 
 ### Steps
 
@@ -144,32 +146,26 @@ Then include `ocy.hpp` and compile with `-lcurl`.
    cd ocy
    ```
 
-2. **Quantize the model** (if you have a different model)
+2. **Deploy to Vercel**
 
    ```bash
-   python quantize.py --input model.onnx --output model_int8.onnx
+   # Install Vercel CLI
+   npm install -g vercel
+
+   # Deploy
+   vercel
    ```
 
-3. **Configure wrangler.toml**
+   Or connect your GitHub repo to Vercel for automatic deployments.
 
-   Create a KV namespace and update `wrangler.toml`:
+3. **Use your API URL**
 
-   ```toml
-   name = "ocy-api"
-   compatibility_date = "2024-01-01"
+   After deployment, you'll get a URL like `https://your-project.vercel.app`
 
-   [vars]
-   GITHUB_RELEASE_URL = "https://your-release-url/model_int8.onnx"
-
-   [[kv_namespaces]]
-   binding = "RATE_LIMIT"
-   id = "your-kv-namespace-id"
-   ```
-
-4. **Deploy**
-
-   ```bash
-   npx wrangler deploy
+   ```python
+   import ocy
+   ocy.set_api_url("https://your-project.vercel.app")
+   result = ocy.extract_text("https://example.com/screenshot.png")
    ```
 
 ## SDKs
@@ -203,4 +199,4 @@ MIT License — see [LICENSE](LICENSE) for details.
 - [GitHub](https://github.com/solez-ai/ocy)
 - [npm package](https://www.npmjs.com/package/ocy)
 - [PyPI package](https://pypi.org/project/ocy/)
-- [Cloudflare Workers](https://workers.cloudflare.com/)
+- [Vercel](https://vercel.com)

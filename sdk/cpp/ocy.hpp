@@ -123,7 +123,7 @@ int extractJsonInt(const std::string& json, const std::string& key) {
 } // namespace detail
 
 // Configuration
-static std::string API_URL = "https://ocy-api.samin.workers.dev";
+static std::string API_URL;
 static std::string API_KEY = "";
 
 /**
@@ -144,6 +144,10 @@ inline void setApiKey(const std::string& key) {
  * Extract text from an image URL - returns raw JSON string
  */
 inline std::string extract_text(const std::string& image_url, const std::string& api_key = "") {
+    if (API_URL.empty()) {
+        return "{\"error\":\"API URL not set. Call setApiUrl() first.\"}";
+    }
+
     CURL* curl = curl_easy_init();
     if (!curl) return "{\"error\":\"Failed to init CURL\"}";
 
@@ -163,7 +167,7 @@ inline std::string extract_text(const std::string& image_url, const std::string&
     }
 
     // Configure CURL
-    curl_easy_setopt(curl, CURLOPT_URL, (API_URL + "/extract").c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, (API_URL + "/api/extract").c_str());
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json_body.c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -210,7 +214,7 @@ inline std::string health() {
 
     std::string response;
 
-    curl_easy_setopt(curl, CURLOPT_URL, (API_URL + "/health").c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, (API_URL + "/api/health").c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, detail::writeCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
